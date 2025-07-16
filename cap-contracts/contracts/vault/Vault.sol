@@ -28,6 +28,9 @@ abstract contract Vault is
     VaultStorageUtils
 {
     using EnumerableSet for EnumerableSet.AddressSet;
+    
+    // Testing
+    event Notify(uint256,uint256);
 
     /// @inheritdoc IVault
     function mint(address _asset, uint256 _amountIn, uint256 _minAmountOut, address _receiver, uint256 _deadline)
@@ -35,8 +38,14 @@ abstract contract Vault is
         whenNotPaused
         returns (uint256 amountOut)
     {
+        //1. Tính toán số lượng cần mint
+        //2. 
         uint256 fee;
         (amountOut, fee) = getMintAmount(_asset, _amountIn);
+
+        //Testing
+        emit Notify(amountOut, fee);
+
         VaultLogic.mint(
             getVaultStorage(),
             MintBurnParams({
